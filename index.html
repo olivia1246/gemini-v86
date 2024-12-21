@@ -119,7 +119,7 @@
   <body>
     <header class="header">
       <h1>Gemini 2.0 Flash Experimental + v86</h1>
-      <p>(v86 + Gemini) Experiment with operating systems in your browser and get assistance with Gemini 2.0 Flash Experimental.</p>
+      <p>(v86 + Gemini) Experiment with operating systems in your browser and get assistance with Gemini 2.0 Flash Experimental. <a href="https://github.com/olivia1246/gemini-v86/">GitHub.</a></p>
     </header>
     <main class="main">
       <div id="screen_container" class="screen-container">
@@ -127,8 +127,8 @@
         <canvas style="display: none"></canvas>
       </div>
       <div id="controls" class="controls">
-        <input id="api_key" type="text" placeholder="Enter your API key...">
-        <textarea id="prompt" placeholder="Ask Gemini something..."></textarea>
+        <input id="api_key" type="text" placeholder="Enter your API key.">
+        <textarea id="prompt" placeholder="Ask Gemini."></textarea>
         <button id="save_api_key" onclick="saveApiKey()">Save API Key (Cookies)</button>
         <button id="send_to_gemini">Send to Gemini</button>
         <pre id="response" class="response"></pre>
@@ -157,7 +157,6 @@
           <input id="harddisk_url" type="text" placeholder="Enter Hard Disk URL">
         </div>
         <button id="start_vm" onclick="loadWasm()">Start Virtual Machine</button>
-        <a href="https://github.com/olivia1246/gemini-v86/">GitHub</a>
       </div>
     </main>
     <script>
