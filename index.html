@@ -1,96 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script defer src="/_vercel/insights/script.js"></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"
-    />
-    <title>Vercel HTML Starter</title>
-    <meta
-      name="description"
-      content="High-performance HTML based website template."
-    />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini 2.0 Flash Experimental with v86</title>
+    <script src="https://copy.sh/v86/build/libv86.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        /* Cleaner font */
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background-color: #f4f4f4;
+        /* Light background */
+        color: #333;
+        /* Darker text */
+      }
+
+      .header {
+        text-align: center;
+        padding: 2rem 0;
+        background-color: #007bff;
+        /* Blue header */
+        color: white;
+        margin-bottom: 20px;
+      }
+
+      .main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* Center horizontally */
+        justify-content: center;
+        /* Center vertically */
+        padding: 20px;
+      }
+
+      .controls {
+        width: 95%;
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        /* Increased gap */
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        /* Rounded corners */
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .screen-container {
+        resize: both;
+        margin-bottom: 20px;
+        /* Still needed for spacing below the container */
+      }
+
+      .input-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      label {
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      textarea {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+      }
+
+      button {
+        background-color: #007bff;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      #response {
+        white-space: pre-wrap;
+        width: 95%;
+        max-width: 800px;
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: white;
+        overflow-x: auto;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      @media (max-width: 600px) {
+        .screen-container {
+          height: 400px;
+        }
+      }
+    </style>
   </head>
   <body>
-    <h1>Vercel HTML Starter</h1>
-    <p>
-      This template is a simple, but powerful single
-      <code>index.html</code> file deployed to
-      <a href="https://vercel.com">Vercel</a>. When your site is deployed, all
-      static assets (like HTML, JavaScript, CSS, images, and more) are deployed
-      globally to every
-      <a href="https://vercel.com/docs/concepts/edge-network/overview"
-        >Vercel Edge Network</a
-      >
-      region.
-    </p>
-    <h2>Simple, privacy-friendly analytics</h2>
-    <p>
-      Want to understand your visitor traffic? Vercel Analytics gives you
-      first-party, privacy-friendly traffic analytics for your HTML site. This
-      template is already configured using the following script:
-    </p>
-    <pre><code>&lt;script defer src="/_vercel/insights/script.js"&gt;&lt;/script&gt;</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/analytics">Vercel Analytics</a>.
-    </p>
-    <h2>Integrated with git</h2>
-    <p>
-      Deploying updates to your site is as simple as
-      <code>git push</code> thanks to Vercel's advanced
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-      Support for GitHub, GitLab, Bitbucket is zero-configuration, and with the
-      flexible Vercel CLI and API, you can integrate with any tool possible.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/git">Git Integration</a>.
-    </p>
-    <h2>Fast <code>gzip</code> compression</h2>
-    <p>
-      To help ensure the smallest possible file sizes for your static assets,
-      the Vercel Edge Network compresses files by default using
-      <code>gzip</code>. You can also optionally use
-      <code>brotli</code> compressesion if you prefer.
-    </p>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/edge-network/compression"
-        >compression</a
-      >.
-    </p>
-    <h2>Advanced routing configuration</h2>
-    <p>
-      Vercel gives you a variety of ways to configure the routing of your
-      website. For example, adding redirects, rewrites, or headers to your page.
-      While you can use <code>vercel.json</code> to define these through JSON,
-      you can also express your routing configuration as code using
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
-    <p>
-      Middleware runs before the
-      <a href="https://vercel.com/docs/concepts/edge-network/caching"
-        >Vercel Edge Network Cache</a
-      >, so you can configure routing exactly as your application needs. For
-      example, this template uses <code>middleware.js</code> defined in the root
-      of the repository to add additional security headers to the site:
-    </p>
-    <pre><code>referrer-policy: origin-when-cross-origin
-strict-transport-security: max-age=31536000; includeSubDomains; preload
-x-content-type-options: nosniff
-x-dns-prefetch-control: on
-x-frame-options: DENY</code></pre>
-    <p>
-      Learn more about
-      <a href="https://vercel.com/docs/concepts/functions/edge-middleware"
-        >Vercel Edge Middleware</a
-      >.
-    </p>
+    <header class="header">
+      <h1>Gemini 2.0 Flash Experimental + v86</h1>
+      <p>(v86 + Gemini) Experiment with operating systems in your browser and get assistance with Gemini 2.0 Flash Experimental.</p>
+    </header>
+    <main class="main">
+      <div id="screen_container" class="screen-container">
+        <div style="white-space: pre; font: 14px monospace; line-height: 14px"></div>
+        <canvas style="display: none"></canvas>
+      </div>
+      <div id="controls" class="controls">
+        <input id="api_key" type="text" placeholder="Enter your API key...">
+        <textarea id="prompt" placeholder="Ask Gemini something..."></textarea>
+        <button id="save_api_key" onclick="saveApiKey()">Save API Key (Cookies)</button>
+        <button id="send_to_gemini">Send to Gemini</button>
+        <pre id="response" class="response"></pre>
+        <div class="input-group">
+          <label for="ram_size">RAM (MB):</label>
+          <input id="ram_size" type="number" value="512">
+        </div>
+        <div class="input-group">
+          <label for="vga_memory_size">VGA (MB):</label>
+          <input id="vga_memory_size" type="number" value="64">
+        </div>
+        <div class="input-group">
+          <label for="cdrom_option">CD-ROM:</label>
+          <input type="checkbox" id="cdrom_option">
+        </div>
+        <div class="input-group" id="cdrom_url_container" style="display:none;">
+          <label for="cdrom_url">CD-ROM URL:</label>
+          <input id="cdrom_url" type="text" value="https://github.com/lrusso/VirtualXP/raw/refs/heads/main/VirtualXP.iso">
+        </div>
+        <div class="input-group">
+          <label for="harddisk_option">Hard Disk:</label>
+          <input type="checkbox" id="harddisk_option">
+        </div>
+        <div class="input-group" id="harddisk_url_container" style="display: none;">
+          <label for="harddisk_url">Hard Disk URL:</label>
+          <input id="harddisk_url" type="text" placeholder="Enter Hard Disk URL">
+        </div>
+        <button id="start_vm" onclick="loadWasm()">Start Virtual Machine</button>
+      </div>
+    </main>
+    <script>
+      const geminiApiUrlBase = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=";
+      const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+      // Save API key to cookies
+      function saveApiKey() {
+        const apiKey = document.getElementById("api_key").value;
+        if (apiKey) {
+          document.cookie = `api_key=${apiKey}; path=/; max-age=31536000`; // 1 year expiration
+        }
+      }
+      // Load API key from cookies
+      function loadApiKey() {
+        const cookies = document.cookie.split("; ");
+        const apiKeyCookie = cookies.find(cookie => cookie.startsWith("api_key="));
+        if (apiKeyCookie) {
+          document.getElementById("api_key").value = apiKeyCookie.split("=")[1];
+        }
+      }
+      // Initialize API key from cookies when the page loads
+      window.onload = loadApiKey;
+      document.getElementById("cdrom_option").addEventListener("change", function() {
+        const cdromContainer = document.getElementById("cdrom_url_container");
+        cdromContainer.style.display = this.checked ? "block" : "none";
+      });
+      document.getElementById("harddisk_option").addEventListener("change", function() {
+        const hardDiskContainer = document.getElementById("harddisk_url_container");
+        hardDiskContainer.style.display = this.checked ? "block" : "none";
+      });
+      // Initialize the VM with selected configurations
+      async function loadWasm() {
+        try {
+          const wasmPath = proxyUrl + "https://copy.sh/v86/build/v86.wasm"; // The URL of the WebAssembly file
+          // Get user input values for customization
+          const ramSize = document.getElementById("ram_size").value * 1024 * 1024; // Convert to bytes
+          const vgaMemorySize = document.getElementById("vga_memory_size").value * 1024 * 1024; // Convert to bytes
+          const cdromOption = document.getElementById("cdrom_option").checked;
+          const harddiskOption = document.getElementById("harddisk_option").checked;
+          const cdromUrl = document.getElementById("cdrom_url").value;
+          const harddiskUrl = document.getElementById("harddisk_url").value;
+          const storageConfig = {};
+          if (cdromOption) {
+            storageConfig.cdrom = {
+              url: proxyUrl + cdromUrl
+            };
+          }
+          if (harddiskOption) {
+            storageConfig.hard_disk = {
+              url: proxyUrl + harddiskUrl
+            };
+          }
+          // Initialize the emulator with user-defined configurations
+          var emulator = window.emulator = new V86({
+            wasm_path: wasmPath,
+            memory_size: ramSize, // Custom RAM size
+            vga_memory_size: vgaMemorySize, // Custom VGA memory size
+            screen_container: document.getElementById("screen_container"),
+            bios: {
+              url: proxyUrl + "https://copy.sh/v86/bios/seabios.bin",
+            },
+            vga_bios: {
+              url: proxyUrl + "https://copy.sh/v86/bios/vgabios.bin",
+            },
+            ...storageConfig,
+            autostart: true,
+          });
+        } catch (error) {
+          console.error('Error loading WebAssembly:', error);
+          alert('Error loading WebAssembly:', error);
+          // Check if the error message contains "CORS Anywhere"
+          if (error.message.includes("cors-anywhere")) {
+            alert("CORS Anywhere is not available or active. Redirecting to the temporary access activation page...");
+            // After 5 seconds, redirect to the activation page
+            setTimeout(() => {
+              const affectedFileUrl = proxyUrl + "corsdemo";
+              window.location.href = affectedFileUrl; // Redirect to the file URL
+            }, 5000); // 5 seconds delay
+          }
+        }
+      }
+      }
+      // Capture screen_container as an image
+      async function captureScreen() {
+        const screen = document.getElementById("screen_container");
+        const canvas = await html2canvas(screen);
+        return canvas.toDataURL("image/jpeg").split(",")[1]; // Base64 without prefix
+      }
+      // Send request to Gemini API
+      async function sendToGemini(apiKey, prompt, imageBase64) {
+          const body = {
+            contents: [{
+              parts: [{
+                text: prompt
+              }, {
+                inline_data: {
+                  mime_type: "image/jpeg",
+                  data: imageBase64
+                }
+              }]
+            }]
+          };
+          try {
+            const response = await fetch(geminiApiUrlBase + apiKey, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(body),
+            });
+            const result = await response.json();
+            // Extract the text from the response
+            const textResponse = result.candidates[0]?.content?.parts[0]?.text;
+            if (textResponse) {
+              document.getElementById("response").textContent = textResponse;
+            } else {
+              document.getElementById("response").textContent = "No text response found.";
+            }
+          } catch (error) {
+            console.error('Error sending Gemini API request:', error);
+            alert('Error sending Gemini API request:', error);
+          }
+          // Handle button click
+          document.getElementById("send_to_gemini").addEventListener("click", async () => {
+            const apiKey = document.getElementById("api_key").value.trim();
+            const prompt = document.getElementById("prompt").value;
+            if (!apiKey) {
+              alert("Please enter your API key.");
+              return;
+            }
+            const imageBase64 = await captureScreen();
+            await sendToGemini(apiKey, prompt, imageBase64);
+          });
+    </script>
   </body>
 </html>
