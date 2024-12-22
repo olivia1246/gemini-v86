@@ -129,11 +129,11 @@
         <canvas style="display: none"></canvas>
       </div>
       <div id="controls" class="controls">
-        <input id="api_key" type="text" placeholder="Enter your API key.">
         <textarea id="prompt" placeholder="Ask Gemini."></textarea>
-        <button id="save_api_key" onclick="saveApiKey()">Save API Key (Cookies)</button>
         <button id="send_to_gemini">Send to Gemini</button>
         <pre id="response" class="response"></pre>
+        <input id="api_key" type="text" placeholder="Enter your API key.">
+        <button id="save_api_key" onclick="saveApiKey()">Save API Key (Cookies)</button>
         <div class="input-group">
           <label for="ram_size">RAM (MB):</label>
           <input id="ram_size" type="number" value="512">
@@ -143,7 +143,7 @@
           <input id="vga_memory_size" type="number" value="64">
         </div>
         <div class="input-group">
-          <label for="acpi_option">ACPI:</label>
+          <label for="acpi_option">ACPI (broken):</label>
           <input type="checkbox" id="acpi_option">
         </div>
         <div class="input-group">
