@@ -143,6 +143,10 @@
           <input id="vga_memory_size" type="number" value="64">
         </div>
         <div class="input-group">
+          <label for="acpi_option">ACPI:</label>
+          <input type="checkbox" id="acpi_option">
+        </div>
+        <div class="input-group">
           <label for="harddisk_option">Hard Disk:</label>
           <input type="checkbox" id="harddisk_option">
         </div>
@@ -228,6 +232,7 @@
             // Get user input values for customization
             const ramSize = document.getElementById("ram_size").value * 1024 * 1024; // Convert to bytes
             const vgaMemorySize = document.getElementById("vga_memory_size").value * 1024 * 1024; // Convert to bytes
+            const acpiOption = document.getElementById("acpi_option").checked;
             const cdromOption = document.getElementById("cdrom_option").checked;
             const harddiskOption = document.getElementById("harddisk_option").checked;
             const floppyOption = document.getElementById("floppy_option").checked;
@@ -258,6 +263,9 @@
                     type: "ne2k",
                 relay_url: relayUrl,
                 };
+            }
+            if (acpiOption) {
+                acpi = acpiOption
             }
 
             // Initialize the emulator with user-defined configurations
