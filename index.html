@@ -160,136 +160,147 @@
       </div>
     </main>
     <script>
-      const geminiApiUrlBase = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=";
-      const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-      // Save API key to cookies
-      function saveApiKey() {
+    const geminiApiUrlBase = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=";
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+
+    // Save API key to cookies
+    function saveApiKey() {
         const apiKey = document.getElementById("api_key").value;
         if (apiKey) {
-          document.cookie = `api_key=${apiKey}; path=/; max-age=31536000`; // 1 year expiration
+            document.cookie = `api_key=${apiKey}; path=/; max-age=31536000`; // 1 year expiration
         }
-      }
-      // Load API key from cookies
-      function loadApiKey() {
+    }
+
+    // Load API key from cookies
+    function loadApiKey() {
         const cookies = document.cookie.split("; ");
         const apiKeyCookie = cookies.find(cookie => cookie.startsWith("api_key="));
         if (apiKeyCookie) {
-          document.getElementById("api_key").value = apiKeyCookie.split("=")[1];
+            document.getElementById("api_key").value = apiKeyCookie.split("=")[1];
         }
-      }
-      // Initialize API key from cookies when the page loads
-      window.onload = loadApiKey;
-      document.getElementById("cdrom_option").addEventListener("change", function() {
+    }
+
+    // Initialize API key from cookies when the page loads
+    window.onload = loadApiKey;
+
+    document.getElementById("cdrom_option").addEventListener("change", function () {
         const cdromContainer = document.getElementById("cdrom_url_container");
         cdromContainer.style.display = this.checked ? "block" : "none";
-      });
-      document.getElementById("harddisk_option").addEventListener("change", function() {
+    });
+
+    document.getElementById("harddisk_option").addEventListener("change", function () {
         const hardDiskContainer = document.getElementById("harddisk_url_container");
         hardDiskContainer.style.display = this.checked ? "block" : "none";
-      });
-      // Initialize the VM with selected configurations
-      async function loadWasm() {
+    });
+
+    // Initialize the VM with selected configurations
+    async function loadWasm() {
         try {
-          const wasmPath = proxyUrl + "https://copy.sh/v86/build/v86.wasm"; // The URL of the WebAssembly file
-          // Get user input values for customization
-          const ramSize = document.getElementById("ram_size").value * 1024 * 1024; // Convert to bytes
-          const vgaMemorySize = document.getElementById("vga_memory_size").value * 1024 * 1024; // Convert to bytes
-          const cdromOption = document.getElementById("cdrom_option").checked;
-          const harddiskOption = document.getElementById("harddisk_option").checked;
-          const cdromUrl = document.getElementById("cdrom_url").value;
-          const harddiskUrl = document.getElementById("harddisk_url").value;
-          const storageConfig = {};
-          if (cdromOption) {
-            storageConfig.cdrom = {
-              url: proxyUrl + cdromUrl
-            };
-          }
-          if (harddiskOption) {
-            storageConfig.hard_disk = {
-              url: proxyUrl + harddiskUrl
-            };
-          }
-          // Initialize the emulator with user-defined configurations
-          var emulator = window.emulator = new V86({
-            wasm_path: wasmPath,
-            memory_size: ramSize, // Custom RAM size
-            vga_memory_size: vgaMemorySize, // Custom VGA memory size
-            screen_container: document.getElementById("screen_container"),
-            bios: {
-              url: proxyUrl + "https://copy.sh/v86/bios/seabios.bin",
-            },
-            vga_bios: {
-              url: proxyUrl + "https://copy.sh/v86/bios/vgabios.bin",
-            },
-            ...storageConfig,
-            autostart: true,
-          });
+            const wasmPath = proxyUrl + "https://copy.sh/v86/build/v86.wasm"; // The URL of the WebAssembly file
+            // Get user input values for customization
+            const ramSize = document.getElementById("ram_size").value * 1024 * 1024; // Convert to bytes
+            const vgaMemorySize = document.getElementById("vga_memory_size").value * 1024 * 1024; // Convert to bytes
+            const cdromOption = document.getElementById("cdrom_option").checked;
+            const harddiskOption = document.getElementById("harddisk_option").checked;
+            const cdromUrl = document.getElementById("cdrom_url").value;
+            const harddiskUrl = document.getElementById("harddisk_url").value;
+
+            const storageConfig = {};
+            if (cdromOption) {
+                storageConfig.cdrom = {
+                    url: proxyUrl + cdromUrl
+                };
+            }
+            if (harddiskOption) {
+                storageConfig.hard_disk = {
+                    url: proxyUrl + harddiskUrl
+                };
+            }
+
+            // Initialize the emulator with user-defined configurations
+            var emulator = window.emulator = new V86({
+                wasm_path: wasmPath,
+                memory_size: ramSize, // Custom RAM size
+                vga_memory_size: vgaMemorySize, // Custom VGA memory size
+                screen_container: document.getElementById("screen_container"),
+                bios: {
+                    url: proxyUrl + "https://copy.sh/v86/bios/seabios.bin",
+                },
+                vga_bios: {
+                    url: proxyUrl + "https://copy.sh/v86/bios/vgabios.bin",
+                },
+                ...storageConfig,
+                autostart: true,
+            });
         } catch (error) {
-          console.error('Error loading WebAssembly:', error);
-          alert('Error loading WebAssembly:', error);
-          // Check if the error message contains "CORS Anywhere"
-          if (error.message.includes("cors-anywhere")) {
-            alert("CORS Anywhere is not available or active. Redirecting to the temporary access activation page...");
-            // After 5 seconds, redirect to the activation page
-            setTimeout(() => {
-              const affectedFileUrl = proxyUrl + "corsdemo";
-              window.location.href = affectedFileUrl; // Redirect to the file URL
-            }, 5000); // 5 seconds delay
-          }
+            console.error('Error loading WebAssembly:', error);
+            alert('Error loading WebAssembly:', error);
+            // Check if the error message contains "CORS Anywhere"
+            if (error.message.includes("cors-anywhere")) {
+                alert("CORS Anywhere is not available or active. Redirecting to the temporary access activation page...");
+                // After 5 seconds, redirect to the activation page
+                setTimeout(() => {
+                    const affectedFileUrl = proxyUrl + "corsdemo";
+                    window.location.href = affectedFileUrl; // Redirect to the file URL
+                }, 5000); // 5 seconds delay
+            }
         }
-      }
-      
-      // Capture screen_container as an image
-      async function captureScreen() {
+    }
+
+    // Capture screen_container as an image
+    async function captureScreen() {
         const screen = document.getElementById("screen_container");
         const canvas = await html2canvas(screen);
         return canvas.toDataURL("image/jpeg").split(",")[1]; // Base64 without prefix
-      }
-      // Send request to Gemini API
-      async function sendToGemini(apiKey, prompt, imageBase64) {
-          const body = {
+    }
+
+    // Send request to Gemini API
+    async function sendToGemini(apiKey, prompt, imageBase64) {
+        const body = {
             contents: [{
-              parts: [{
-                text: prompt
-              }, {
-                inline_data: {
-                  mime_type: "image/jpeg",
-                  data: imageBase64
-                }
-              }]
+                parts: [{
+                    text: prompt
+                }, {
+                    inline_data: {
+                        mime_type: "image/jpeg",
+                        data: imageBase64
+                    }
+                }]
             }]
-          };
-          try {
+        };
+        try {
             const response = await fetch(geminiApiUrlBase + apiKey, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(body),
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(body),
             });
             const result = await response.json();
             // Extract the text from the response
             const textResponse = result.candidates[0]?.content?.parts[0]?.text;
             if (textResponse) {
-              document.getElementById("response").textContent = textResponse;
+                document.getElementById("response").textContent = textResponse;
             } else {
-              document.getElementById("response").textContent = "No text response found.";
+                document.getElementById("response").textContent = "No text response found.";
             }
-          } catch (error) {
+        } catch (error) {
             console.error('Error sending Gemini API request:', error);
             alert('Error sending Gemini API request:', error);
-          }
-          // Handle button click
-          document.getElementById("send_to_gemini").addEventListener("click", async () => {
-            const apiKey = document.getElementById("api_key").value.trim();
-            const prompt = document.getElementById("prompt").value;
-            if (!apiKey) {
-              alert("Please enter your API key.");
-              return;
-            }
-            const imageBase64 = await captureScreen();
-            await sendToGemini(apiKey, prompt, imageBase64);
-          });
-    </script>
+        }
+    }
+
+    // Handle button click
+    document.getElementById("send_to_gemini").addEventListener("click", async () => {
+        const apiKey = document.getElementById("api_key").value.trim();
+        const prompt = document.getElementById("prompt").value;
+        if (!apiKey) {
+            alert("Please enter your API key.");
+            return;
+        }
+        const imageBase64 = await captureScreen();
+        await sendToGemini(apiKey, prompt, imageBase64);
+    });
+  </script>
   </body>
 </html>
