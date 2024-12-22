@@ -278,7 +278,7 @@
             console.error('Error loading WebAssembly:', error);
             alert('Error loading WebAssembly:', error);
             // Check if the error message contains "CORS Anywhere"
-            if (error.message.includes("403")) {
+            if (error.status.includes("403")) {
                 alert("CORS Anywhere might not be available or active. Redirecting to the temporary access activation page...");
                 // After 5 seconds, redirect to the activation page
                 setTimeout(() => {
