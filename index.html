@@ -142,20 +142,36 @@
           <input id="vga_memory_size" type="number" value="64">
         </div>
         <div class="input-group">
-          <label for="cdrom_option">CD-ROM:</label>
-          <input type="checkbox" id="cdrom_option">
-        </div>
-        <div class="input-group" id="cdrom_url_container" style="display:none;">
-          <label for="cdrom_url">CD-ROM URL:</label>
-          <input id="cdrom_url" type="text" value="https://github.com/lrusso/VirtualXP/raw/refs/heads/main/VirtualXP.iso">
-        </div>
-        <div class="input-group">
           <label for="harddisk_option">Hard Disk:</label>
           <input type="checkbox" id="harddisk_option">
         </div>
         <div class="input-group" id="harddisk_url_container" style="display: none;">
           <label for="harddisk_url">Hard Disk URL:</label>
           <input id="harddisk_url" type="text" placeholder="Enter Hard Disk URL">
+        </div>
+        <div class="input-group">
+          <label for="cdrom_option">CD-ROM:</label>
+          <input type="checkbox" id="cdrom_option">
+        </div>
+        <div class="input-group" id="cdrom_url_container" style="display:none;">
+          <label for="cdrom_url">CD-ROM URL:</label>
+          <input id="cdrom_url" type="text" value="https://github.com/lrusso/VirtualXP/raw/refs/heads/main/VirtualXP.iso" placeholder="Enter CD-ROM URL">
+        </div>
+        <div class="input-group">
+          <label for="floppy_option">Floppy Disk:</label>
+          <input type="checkbox" id="floppy_option">
+        </div>
+        <div class="input-group" id="floppy_url_container" style="display:none;">
+          <label for="floppy_url">Floppy Disk URL:</label>
+          <input id="floppy_url" type="text" value="https://i.copy.sh/windows2.img" placeholder="Enter Floppy Disk URL">
+        </div>
+        <div class="input-group">
+          <label for="relay_option">Networking:</label>
+          <input type="checkbox" id="relay_option">
+        </div>
+        <div class="input-group" id="relay_url_container" style="display: none;">
+          <label for="relay_url">Relay URL:</label>
+          <input id="relay_url" type="text" value="wisps://wisp.mercurywork.shop/v86/" placeholder="Enter Relay URL">
         </div>
         <button id="start_vm" onclick="loadWasm()">Start Virtual Machine</button>
       </div>
@@ -194,6 +210,16 @@
         hardDiskContainer.style.display = this.checked ? "block" : "none";
     });
 
+    document.getElementById("floppy_option").addEventListener("change", function () {
+        const hardDiskContainer = document.getElementById("floppy_url_container");
+        hardDiskContainer.style.display = this.checked ? "block" : "none";
+    });
+
+    document.getElementById("relay_option").addEventListener("change", function () {
+        const hardDiskContainer = document.getElementById("relay_url_container");
+        hardDiskContainer.style.display = this.checked ? "block" : "none";
+    });
+
     // Initialize the VM with selected configurations
     async function loadWasm() {
         try {
@@ -203,8 +229,12 @@
             const vgaMemorySize = document.getElementById("vga_memory_size").value * 1024 * 1024; // Convert to bytes
             const cdromOption = document.getElementById("cdrom_option").checked;
             const harddiskOption = document.getElementById("harddisk_option").checked;
+            const floppyOption = document.getElementById("floppy_option").checked;
+            const relayOption = document.getElementById("relay_option").checked;
             const cdromUrl = document.getElementById("cdrom_url").value;
             const harddiskUrl = document.getElementById("harddisk_url").value;
+            const floppyUrl = document.getElementById("floppy_url").checked;
+            const relayUrl = document.getElementById("relay_url").value;
 
             const storageConfig = {};
             if (cdromOption) {
@@ -213,8 +243,19 @@
                 };
             }
             if (harddiskOption) {
-                storageConfig.hard_disk = {
+                storageConfig.hda = {
                     url: proxyUrl + harddiskUrl
+                };
+            }
+            if (floppyOption) {
+                storageConfig.fda = {
+                    url: proxyUrl + floppyUrl
+                };
+            }
+            if (relayOption) {
+                net_device: {
+                    type: "ne2k",
+                relay_url: relayUrl,
                 };
             }
 
